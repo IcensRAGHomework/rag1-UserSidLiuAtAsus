@@ -46,9 +46,7 @@ def generate_hw01(question):
                     Name = NameMatch1.group(1)
                 data = {'Result':[{'date': Time, 'name': Name}]}
                 json_str = json.dumps(data, ensure_ascii=False, indent=4)
-                print(json_str)
-
-    return response
+                return(json_str)
     
 def generate_hw02(question):
     pass
