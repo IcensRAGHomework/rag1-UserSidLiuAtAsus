@@ -141,6 +141,5 @@ def demo(question):
     response = llm.invoke([message])
     
     return response
-    
-generate_hw02("2024年台灣10月紀念日有哪些?")
+
 
