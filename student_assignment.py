@@ -11,8 +11,9 @@ from langchain.agents import AgentExecutor, create_openai_functions_agent, creat
 
 import json
 import re
+import requests
 
-import calendarific
+#import calendarific
 from langchain_core.tools import StructuredTool
 
 gpt_chat_version = 'gpt-4o'
@@ -85,22 +86,21 @@ def generate_hw01(question):
 
 
 def get_holiday(country: str, year:int, month:int):
-    calapi = calendarific.v2('1OjpLyZIBMPMsVoHoxNvkZeAaFXWiGDJ')
+    url = 'https://calendarific.com/api/v2/holidays'
 
     parameters = {
         # Required
+        'api_key': '1OjpLyZIBMPMsVoHoxNvkZeAaFXWiGDJ',
         'country': country,
         'year':    year,
         'month':    month,
     }
 
-    holidays = calapi.holidays(parameters)
-    #decodeHoliday = json.dumps(holidays, ensure_ascii=False, indent=4)
-    #print(decodeHoliday)
-    return holidays
+    response = requests.get(url, params=parameters)
+    data = json.loads(response.text)
+    return data
     
 
-    
 def generate_hw02(question):
 
     formal_prompt = ChatPromptTemplate.from_messages(
