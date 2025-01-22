@@ -42,6 +42,18 @@ few_shot_prompt = FewShotChatMessagePromptTemplate(
     examples=examples,
 )
 
+class holidayRequest(BaseModel):
+    country: str = Field(description="以2字母 iso code表示國家")
+    year:int = Field(description="以yyyy表示年分")
+    month:int = Field(description="以mm表示月份")
+
+holiday_data = StructuredTool.from_function(
+    func=get_holiday,
+    name='Holiday_Calendar',
+    description='特定年月份的節日有哪些',
+    args_schema=holidayRequest
+)
+
 def generate_hw01(question):
     message = HumanMessage(
             content=[
@@ -70,10 +82,7 @@ def generate_hw01(question):
                 json_str = json.dumps(data, ensure_ascii=False, indent=4)
                 return(json_str)
 
-class holidayRequest(BaseModel):
-    country: str = Field(description="以2字母 iso code表示國家")
-    year:int = Field(description="以yyyy表示年分")
-    month:int = Field(description="以mm表示月份")
+
 
 def get_holiday(country: str, year:int, month:int):
     calapi = calendarific.v2('1OjpLyZIBMPMsVoHoxNvkZeAaFXWiGDJ')
@@ -90,12 +99,7 @@ def get_holiday(country: str, year:int, month:int):
     #print(decodeHoliday)
     return holidays
     
-holiday_data = StructuredTool.from_function(
-    func=get_holiday,
-    name='Holiday_Calendar',
-    description='特定年月份的節日有哪些',
-    args_schema=holidayRequest
-)
+
     
 def generate_hw02(question):
 
