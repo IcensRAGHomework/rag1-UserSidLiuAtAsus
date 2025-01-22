@@ -48,12 +48,6 @@ class holidayRequest(BaseModel):
     year:int = Field(description="以yyyy表示年分")
     month:int = Field(description="以mm表示月份")
 
-holiday_data = StructuredTool.from_function(
-    func=get_holiday,
-    name='Holiday_Calendar',
-    description='特定年月份的節日有哪些',
-    args_schema=holidayRequest
-)
 
 def generate_hw01(question):
     message = HumanMessage(
@@ -100,6 +94,13 @@ def get_holiday(country: str, year:int, month:int):
     data = json.loads(response.text)
     return data
     
+holiday_data = StructuredTool.from_function(
+    func=get_holiday,
+    name='Holiday_Calendar',
+    description='特定年月份的節日有哪些',
+    args_schema=holidayRequest
+)
+
 
 def generate_hw02(question):
 
